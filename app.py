@@ -21,7 +21,6 @@ import streamlit as st
 # Configuración de página
 st.set_page_config(
     page_title="Dashboard TMDB API | UPQ - Práctica 12",
-    page_icon="🎬",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -116,16 +115,16 @@ def leer_token(archivo="token.txt"):
 
     if not lineas or not lineas[0] or lineas[0] == "TU_API_KEY_AQUI":
         if os.path.exists("respuesta.json"):
-            return None, "⚠ 'token.txt' sin API Key activa. Reutilizando caché validada de 'respuesta.json'."
+            return None, "[AVISO] 'token.txt' sin API Key activa. Reutilizando caché validada de 'respuesta.json'."
         return None, f"[ERROR DE VALIDACIÓN] El archivo '{archivo}' está vacío o incompleto."
 
     token = lineas[0]
     if len(token) < 15:
         if os.path.exists("respuesta.json"):
-            return None, "⚠ Token en 'token.txt' inválido. Reutilizando caché local 'respuesta.json'."
+            return None, "[AVISO] Token en 'token.txt' inválido. Reutilizando caché local 'respuesta.json'."
         return None, f"[ERROR DE VALIDACIÓN] El token en '{archivo}' es demasiado corto o inválido."
 
-    return token, "✔ Token externo cargado y validado desde 'token.txt' (excluido de Git mediante .gitignore)."
+    return token, "Token externo cargado y validado desde 'token.txt' (excluido de Git mediante .gitignore)."
 
 
 # FASE 3 - CONDICIONES 2, 3 Y 4: Códigos de estado, verificación JSON y caché
@@ -140,7 +139,7 @@ def obtener_datos_api(token, archivo_cache="respuesta.json", forzar_api=False):
         try:
             with open(archivo_cache, "r", encoding="utf-8-sig") as f:
                 datos = json.load(f)
-            return datos, f"✔ Datos cargados desde caché local '{archivo_cache}' ({len(datos['resultados']['lista'])} registros)."
+            return datos, f"Datos cargados desde caché local '{archivo_cache}' ({len(datos['resultados']['lista'])} registros)."
         except json.JSONDecodeError:
             pass
 
@@ -189,7 +188,7 @@ def obtener_datos_api(token, archivo_cache="respuesta.json", forzar_api=False):
     with open(archivo_cache, "w", encoding="utf-8") as f:
         json.dump(estructura, f, ensure_ascii=False, indent=2)
 
-    return estructura, f"✔ Se descargaron y almacenaron {len(todas_las_peliculas)} registros en '{archivo_cache}'."
+    return estructura, f"Se descargaron y almacenaron {len(todas_las_peliculas)} registros en '{archivo_cache}'."
 
 
 # FASE 3 - CONDICIÓN 5: La limpieza queda documentada
@@ -298,7 +297,7 @@ def figura_relacion(df, umbral_votos=5000):
     )
     ax.scatter(
         df_alto['vote_count'], df_alto['vote_average'],
-        color=COLOR_DESTACADO, alpha=0.75, s=55, label=f'≥ {umbral_votos:,} votos (Énfasis)'
+        color=COLOR_DESTACADO, alpha=0.75, s=55, label=f'>= {umbral_votos:,} votos (Énfasis)'
     )
 
     ax.set_title(
@@ -355,13 +354,13 @@ def main():
     # Encabezado institucional
     st.markdown("""
     <div class="main-header">
-        <h1>🎬 Dashboard Analítico: The Movie Database (TMDB) API</h1>
+        <h1>Dashboard Analítico: The Movie Database (TMDB) API</h1>
         <p>Universidad Politécnica de Querétaro · Ingeniería en Datos e Inteligencia Artificial · Herramientas de Visualización</p>
         <div>
-            <span class="badge-inst">👤 Alumno: Said Giuliano Ayala Carrasco</span>
-            <span class="badge-inst">👨‍🏫 Docente: Jairo Pacindo Piña</span>
-            <span class="badge-inst">🎓 Grupo: IDIA 222</span>
-            <span class="badge-inst">📊 Práctica 12 · Integración Streamlit</span>
+            <span class="badge-inst">Alumno: Said Giuliano Ayala Carrasco</span>
+            <span class="badge-inst">Docente: Jairo Pacindo Piña</span>
+            <span class="badge-inst">Grupo: IDIA 222</span>
+            <span class="badge-inst">Práctica 12 · Integración Streamlit</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -381,12 +380,12 @@ def main():
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoU0LVmDWQ26ORp8H49iWqH-mElAcwDJ7lThXdPQDcCIWgrJXykHsREmo_&s=10",
             width=220
         )
-        st.markdown("### ⚙️ Filtros Interactivos")
+        st.markdown("### Filtros Interactivos")
         st.caption("Ajusta los parámetros para explorar el catálogo de películas en tiempo real.")
 
         anios_disp = sorted(df_base['anio'].unique())
         rango_anios = st.slider(
-            "📅 Rango de año de estreno",
+            "Rango de año de estreno",
             min_value=int(min(anios_disp)),
             max_value=int(max(anios_disp)),
             value=(int(min(anios_disp)), int(max(anios_disp)))
@@ -394,14 +393,14 @@ def main():
 
         idiomas_disp = sorted(df_base['original_language'].unique())
         idiomas_sel = st.multiselect(
-            "🌐 Idioma original de producción",
+            "Idioma original de producción",
             options=idiomas_disp,
             default=idiomas_disp,
             format_func=lambda x: MAPA_IDIOMAS.get(x, x)
         )
 
         rango_calif = st.slider(
-            "⭐ Rango de calificación (0 - 10)",
+            "Rango de calificación (0 - 10)",
             min_value=float(df_base['vote_average'].min()),
             max_value=float(df_base['vote_average'].max()),
             value=(float(df_base['vote_average'].min()), float(df_base['vote_average'].max())),
@@ -409,23 +408,23 @@ def main():
         )
 
         min_votos = st.number_input(
-            "🗳️ Volumen mínimo de votos",
+            "Volumen mínimo de votos",
             min_value=10,
             max_value=int(df_base['vote_count'].max()),
             value=10,
             step=100
         )
 
-        busqueda_titulo = st.text_input("🔍 Buscar película por título", placeholder="Ej. Dune, Oppenheimer, Roma...")
+        busqueda_titulo = st.text_input("Buscar película por título", placeholder="Ej. Dune, Oppenheimer, Roma...")
 
         st.markdown("---")
-        st.markdown("### 🎨 Paleta Institucional")
+        st.markdown("### Paleta Institucional")
         col_c1, col_c2 = st.columns(2)
         col_c1.color_picker("Gris Contexto", COLOR_CONTEXTO, disabled=True)
         col_c2.color_picker("Azul Énfasis", COLOR_DESTACADO, disabled=True)
 
         st.markdown("---")
-        st.markdown("### 🔐 Estado de Seguridad")
+        st.markdown("### Estado de Seguridad")
         st.info(msg_token)
         st.success(msg_datos)
 
@@ -452,21 +451,21 @@ def main():
     votos_totales = int(df_filtrado['vote_count'].sum()) if total_actual > 0 else 0
     pop_media = df_filtrado['popularity'].mean() if total_actual > 0 else 0.0
 
-    kpi1.metric("🎞️ Películas Analizadas", f"{total_actual}", f"de {auditoria['n_final']} limpias")
-    kpi2.metric("⭐ Calificación Promedio", f"{calif_media:.2f} / 10", f"Mediana: {calif_mediana:.1f}")
-    kpi3.metric("🗳️ Volumen Total Votos", f"{votos_totales:,}", "Participación acumulada")
-    kpi4.metric("🔥 Popularidad Media", f"{pop_media:.1f}", "Índice TMDB")
+    kpi1.metric("Películas Analizadas", f"{total_actual}", f"de {auditoria['n_final']} limpias")
+    kpi2.metric("Calificación Promedio", f"{calif_media:.2f} / 10", f"Mediana: {calif_mediana:.1f}")
+    kpi3.metric("Volumen Total Votos", f"{votos_totales:,}", "Participación acumulada")
+    kpi4.metric("Popularidad Media", f"{pop_media:.1f}", "Índice TMDB")
     idioma_top_kpi = MAPA_IDIOMAS.get(df_filtrado['original_language'].mode()[0], "N/A") if total_actual > 0 else "N/A"
-    kpi5.metric("🌍 Idioma Predominante", idioma_top_kpi, "Mayor presencia")
+    kpi5.metric("Idioma Predominante", idioma_top_kpi, "Mayor presencia")
 
     st.markdown("---")
 
     # ================= PESTAÑAS DEL DASHBOARD =================
     tab_graficas, tab_ficha, tab_limpieza, tab_explorador = st.tabs([
-        "📊 Fase 4: Las 4 Gráficas y Hallazgos",
-        "📋 Fase 2: Ficha Técnica de la API",
-        "🧹 Fase 3: Seguridad, Caché y Limpieza",
-        "🔎 Explorador de Datos y Descarga"
+        "Fase 4: Las 4 Gráficas y Hallazgos",
+        "Fase 2: Ficha Técnica de la API",
+        "Fase 3: Seguridad, Caché y Limpieza",
+        "Explorador de Datos y Descarga"
     ])
 
     # ---------------- PESTAÑA 1: LAS 4 GRÁFICAS ----------------
@@ -483,7 +482,7 @@ def main():
 
             # Gráfica 1: Distribución
             with fila1_col1:
-                st.subheader("1️⃣ Gráfica de Distribución")
+                st.subheader("1. Gráfica de Distribución")
                 st.caption("**Pregunta:** ¿Cómo se reparten las calificaciones de las películas populares y en qué rango se concentran?")
                 fig1, med1 = figura_distribucion(df_filtrado)
                 st.pyplot(fig1)
@@ -499,7 +498,7 @@ def main():
 
             # Gráfica 2: Comparación
             with fila1_col2:
-                st.subheader("2️⃣ Gráfica de Comparación")
+                st.subheader("2. Gráfica de Comparación")
                 st.caption("**Pregunta:** ¿Qué idioma original tiene mayor presencia numérica entre las producciones más populares?")
                 fig2, lider_nom, lider_pct = figura_comparacion(df_filtrado)
                 st.pyplot(fig2)
@@ -517,7 +516,7 @@ def main():
 
             # Gráfica 3: Relación
             with fila2_col1:
-                st.subheader("3️⃣ Gráfica de Relación")
+                st.subheader("3. Gráfica de Relación")
                 st.caption("**Pregunta:** ¿Existe una relación entre el volumen total de votos y la calificación promedio asignada?")
                 fig3 = figura_relacion(df_filtrado)
                 st.pyplot(fig3)
@@ -532,7 +531,7 @@ def main():
 
             # Gráfica 4: Evolución
             with fila2_col2:
-                st.subheader("4️⃣ Gráfica de Evolución Temporal")
+                st.subheader("4. Gráfica de Evolución Temporal")
                 st.caption("**Pregunta:** ¿Cómo ha variado la calificación promedio de las películas según su año de estreno?")
                 fig4, df_evol = figura_evolucion(df_filtrado)
                 st.pyplot(fig4)
@@ -547,22 +546,22 @@ def main():
 
     # ---------------- PESTAÑA 2: FICHA DE LA API ----------------
     with tab_ficha:
-        st.subheader("📋 Fase 2. Ficha Técnica de The Movie Database (TMDB) API")
+        st.subheader("Fase 2. Ficha Técnica de The Movie Database (TMDB) API")
         ficha_data = [
             ("Nombre y liga", "The Movie Database (TMDB) API — https://developer.themoviedb.org/reference/intro/getting-started"),
             ("Qué datos entrega", "Catálogo estructurado de películas internacionales con títulos, fechas oficiales de estreno, índice de popularidad calculado, calificación promedio (0 a 10 puntos), volumen de votos e idioma original."),
-            ("Cómo se obtiene el token", "1. Registro gratuito en themoviedb.org · 2. Ajustes de cuenta → apartado API · 3. Generar API Key de desarrollador."),
+            ("Cómo se obtiene el token", "1. Registro gratuito en themoviedb.org · 2. Ajustes de cuenta -> apartado API · 3. Generar API Key de desarrollador."),
             ("Cómo se manda el token", "Como parámetro en la URL con el nombre exacto `api_key` (o por encabezado `Authorization: Bearer <token>`)."),
             ("Límite de peticiones", "Alrededor de 50 peticiones por segundo (sin límite restrictivo de cuota diaria gratuita)."),
             ("Endpoint elegido", "https://api.themoviedb.org/3/discover/movie?api_key=****************&language=es-MX&sort_by=popularity.desc&page=1"),
             ("Estructura del JSON", "La lista de registros se almacena en la ruta `datos['resultados']['lista']`."),
-            ("Columnas y registros", "Columnas: popularity, vote_average, vote_count, release_date, original_language. Registros: 240 descargados (12 páginas × 20 películas), superando el mínimo de 200 limpios."),
+            ("Columnas y registros", "Columnas: popularity, vote_average, vote_count, release_date, original_language. Registros: 240 descargados (12 páginas x 20 películas), superando el mínimo de 200 limpios."),
             ("Las 4 preguntas analíticas", "1. Distribución de calificaciones · 2. Comparación por idioma original · 3. Relación entre votos y calificación · 4. Evolución anual por año de estreno.")
         ]
         df_ficha = pd.DataFrame(ficha_data, columns=["Campo de la Ficha", "Especificación Técnica"])
         st.table(df_ficha)
 
-        st.markdown("#### 💡 Reflexión Final del Reporte")
+        st.markdown("#### Reflexión Final del Reporte")
         st.info(
             "**¿Qué fue lo más difícil del proceso?** Lo más desafiante fue la comprensión e integración de la documentación de la API "
             "junto con la paginación (`page=1..12`) para superar los 200 registros limpios, concatenando múltiples respuestas JSON con manejo "
@@ -572,31 +571,31 @@ def main():
 
     # ---------------- PESTAÑA 3: FASE 3 Y LIMPIEZA ----------------
     with tab_limpieza:
-        st.subheader("🛡️ Cumplimiento de las 5 Condiciones Obligatorias (Fase 3)")
+        st.subheader("Cumplimiento de las 5 Condiciones Obligatorias (Fase 3)")
         c1, c2, c3 = st.columns(3)
         with c1:
             st.markdown("""
             <div class="condition-card">
-                <h4>🔒 Condición 1: Token Externo</h4>
+                <h4>Condición 1: Token Externo</h4>
                 <p>El token jamás se escribe en el código fuente. Se lee desde <code>token.txt</code> (excluido del repositorio con <code>.gitignore</code>) y se valida su longitud y formato.</p>
             </div>
             """, unsafe_allow_html=True)
         with c2:
             st.markdown("""
             <div class="condition-card">
-                <h4>📡 Condiciones 2 y 3: HTTP & JSON</h4>
+                <h4>Condiciones 2 y 3: HTTP y JSON</h4>
                 <p>Manejo explícito de códigos HTTP (<code>401</code> No autorizado, <code>400</code> Petición inválida, <code>429</code> Rate Limit) y verificación de cabecera <code>Content-Type: application/json</code>.</p>
             </div>
             """, unsafe_allow_html=True)
         with c3:
             st.markdown("""
             <div class="condition-card">
-                <h4>💾 Condición 4: Caché Local</h4>
+                <h4>Condición 4: Caché Local</h4>
                 <p>Respaldo automático en <code>respuesta.json</code> con 240 registros para evitar consumo innecesario de cuota y permitir ejecución segura sin exponer credenciales.</p>
             </div>
             """, unsafe_allow_html=True)
 
-        st.markdown("### 🧹 Condición 5: Documentación de la Limpieza de Datos")
+        st.markdown("### Condición 5: Documentación de la Limpieza de Datos")
         m1, m2, m3 = st.columns(3)
         m1.metric("1. Registros cargados del JSON", auditoria["n_inicial"])
         m2.metric("2. Registros descartados (nulos / <10 votos)", auditoria["perdidos"])
@@ -622,7 +621,7 @@ def main():
 
     # ---------------- PESTAÑA 4: EXPLORADOR DE DATOS ----------------
     with tab_explorador:
-        st.subheader("🔎 Catálogo Interactivo de Películas (Datos Limpios)")
+        st.subheader("Catálogo Interactivo de Películas (Datos Limpios)")
         columnas_mostrar = ['id', 'title', 'idioma_nombre', 'anio', 'vote_average', 'vote_count', 'popularity', 'release_date']
         df_vista = df_filtrado[columnas_mostrar].copy()
         df_vista['release_date'] = df_vista['release_date'].dt.strftime('%Y-%m-%d')
@@ -641,7 +640,7 @@ def main():
 
         csv_bytes = df_vista.to_csv(index=False).encode('utf-8-sig')
         st.download_button(
-            label="📥 Descargar datos filtrados en CSV",
+            label="Descargar datos filtrados en CSV",
             data=csv_bytes,
             file_name="tmdb_peliculas_limpias.csv",
             mime="text/csv"

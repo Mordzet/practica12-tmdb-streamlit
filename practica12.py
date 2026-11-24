@@ -46,8 +46,8 @@ def leer_token(archivo="token.txt"):
     if not lineas or not lineas[0] or lineas[0] == "TU_API_KEY_AQUI":
         # Si ya existe respuesta.json en caché local, permitimos ejecutar en modo offline
         if os.path.exists("respuesta.json"):
-            print("⚠ [AVISO] 'token.txt' no contiene API Key activa, pero se detectó 'respuesta.json'.")
-            print("✔ Reutilizando datos locales en modo seguro.")
+            print("[AVISO] 'token.txt' no contiene API Key activa, pero se detectó 'respuesta.json'.")
+            print("Reutilizando datos locales en modo seguro.")
             return None
         print(f"[ERROR DE VALIDACIÓN] El archivo '{archivo}' está vacío o incompleto.")
         print("Ingresa tu API Key de TMDB para continuar.")
@@ -58,7 +58,7 @@ def leer_token(archivo="token.txt"):
         print(f"[ERROR DE VALIDACIÓN] El token leído en '{archivo}' es demasiado corto o inválido.")
         raise SystemExit(1)
 
-    print("✔ Token cargado y validado correctamente desde 'token.txt'.")
+    print("Token cargado y validado correctamente desde 'token.txt'.")
     return token
 
 
@@ -70,7 +70,7 @@ def obtener_datos_api(token, archivo_cache="respuesta.json"):
     Condición 3: Valida que la respuesta contenga Content-Type JSON.
     """
     if os.path.exists(archivo_cache):
-        print(f"✔ Reutilizando datos locales desde '{archivo_cache}' (ahorro de peticiones y modo depuración).")
+        print(f"Reutilizando datos locales desde '{archivo_cache}' (ahorro de peticiones y modo depuración).")
         try:
             with open(archivo_cache, "r", encoding="utf-8-sig") as f:
                 return json.load(f)
@@ -81,7 +81,7 @@ def obtener_datos_api(token, archivo_cache="respuesta.json"):
         print("[ERROR] Se requiere un token válido en token.txt para descargar los datos por primera vez.")
         raise SystemExit(1)
 
-    print("📡 Consultando API de The Movie Database (TMDB)...")
+    print("Consultando API de The Movie Database (TMDB)...")
     url_base = "https://api.themoviedb.org/3/discover/movie"
     todas_las_peliculas = []
     total_paginas = 12  # 20 películas por página = 240 registros
@@ -138,7 +138,7 @@ def obtener_datos_api(token, archivo_cache="respuesta.json"):
     with open(archivo_cache, "w", encoding="utf-8") as f:
         json.dump(estructura, f, ensure_ascii=False, indent=2)
 
-    print(f"✔ Se descargaron y almacenaron {len(todas_las_peliculas)} registros en '{archivo_cache}'.")
+    print(f"Se descargaron y almacenaron {len(todas_las_peliculas)} registros en '{archivo_cache}'.")
     return estructura
 
 
@@ -207,7 +207,7 @@ def graficar_distribucion(df):
     plt.tight_layout()
 
     plt.savefig("grafica1_distribucion.png", dpi=300)
-    print("✔ Gráfica 1 guardada: 'grafica1_distribucion.png'")
+    print("Gráfica 1 guardada: 'grafica1_distribucion.png'")
     plt.show()
 
 
@@ -241,7 +241,7 @@ def graficar_comparacion(df):
     plt.tight_layout()
 
     plt.savefig("grafica2_comparacion.png", dpi=300)
-    print("✔ Gráfica 2 guardada: 'grafica2_comparacion.png'")
+    print("Gráfica 2 guardada: 'grafica2_comparacion.png'")
     plt.show()
 
 
@@ -258,7 +258,7 @@ def graficar_relacion(df):
     plt.tight_layout()
 
     plt.savefig("grafica3_relacion.png", dpi=300)
-    print("✔ Gráfica 3 guardada: 'grafica3_relacion.png'")
+    print("Gráfica 3 guardada: 'grafica3_relacion.png'")
     plt.show()
 
 
@@ -284,7 +284,7 @@ def graficar_evolucion(df):
     plt.tight_layout()
 
     plt.savefig("grafica4_evolucion.png", dpi=300)
-    print("✔ Gráfica 4 guardada: 'grafica4_evolucion.png'")
+    print("Gráfica 4 guardada: 'grafica4_evolucion.png'")
     plt.show()
 
 
@@ -301,8 +301,8 @@ def main():
     graficar_relacion(df_limpio)
     graficar_evolucion(df_limpio)
     
-    print("\n✔ ¡Proceso finalizado con éxito!")
-    print("✔ Se cumplieron todas las condiciones y reglas de visualización.")
+    print("\n¡Proceso finalizado con éxito!")
+    print("Se cumplieron todas las condiciones y reglas de visualización.")
 
 
 if __name__ == "__main__":

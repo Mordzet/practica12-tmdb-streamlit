@@ -1,4 +1,4 @@
-# 🎬 Dashboard Analítico: The Movie Database (TMDB) API — Práctica 12
+# Dashboard Analítico: The Movie Database (TMDB) API — Práctica 12
 
 **Universidad Politécnica de Querétaro (UPQ)**  
 **Carrera:** Ingeniería en Datos e Inteligencia Artificial  
@@ -9,7 +9,7 @@
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción del Proyecto
 
 Transformación e integración de la **Práctica 12 (Tu API — The Movie Database TMDB)** en un **Dashboard Interactivo con Streamlit** ([`app.py`](app.py)), conservando la paleta de colores institucional del curso (`#B9C3D1` gris de contexto y `#1C4C9A` azul de énfasis) y las **5 condiciones obligatorias de seguridad, validación y limpieza**:
 
@@ -21,7 +21,7 @@ Transformación e integración de la **Práctica 12 (Tu API — The Movie Databa
 
 ---
 
-## 📸 Evidencia de Funcionamiento del Dashboard en Streamlit
+## Evidencia de Funcionamiento del Dashboard en Streamlit
 
 ### 1. Vista General del Dashboard, Filtros Interactivos, KPIs y Gráficas 1 y 2
 ![Vista General del Dashboard](captura1_dashboard_general.png)
@@ -40,7 +40,7 @@ Transformación e integración de la **Práctica 12 (Tu API — The Movie Databa
 
 ---
 
-## 🚀 Cómo Ejecutar el Dashboard Localmente
+## Cómo Ejecutar el Dashboard Localmente
 
 1. Clonar el repositorio:
    ```bash
@@ -62,7 +62,7 @@ Transformación e integración de la **Práctica 12 (Tu API — The Movie Databa
 
 ---
 
-## 📂 Estructura del Repositorio
+## Estructura del Repositorio
 
 - [`app.py`](app.py) — Aplicación principal del Dashboard interactivo en Streamlit.
 - [`practica12.ipynb`](practica12.ipynb) — Notebook original con el desarrollo de las Fases 2, 3 y 4.
